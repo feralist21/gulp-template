@@ -1,0 +1,3 @@
+@mixin transition($type) {
+  transition: $type 0.2s ease-in;
+}
