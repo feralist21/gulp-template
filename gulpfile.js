@@ -34,7 +34,7 @@ export const style = () => {
   return gulp.src('./src/styles/style.scss')
     .pipe(plumber())
     .pipe(sourcemap.init())
-    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(sass({ includePaths: ['./node_modules'] }).on('error', sass.logError))
     .pipe(postcss([autoprefixer({ grid: true })]))
     .pipe(cssnano({
       discardComments: {
@@ -52,7 +52,7 @@ export const js = () => {
     .pipe(plumber())
     .pipe(
       includeFiles({
-        includePaths: './src/components/**/',
+        includePaths: ['./node_modules/', './src/components/**/'],
       })
     )
     .pipe(uglify())
@@ -93,7 +93,7 @@ export const sprite = () => {
         }
       },
     }))
-    .pipe(gulp.dest('./public/img/'));
+    .pipe(gulp.dest('./public/images/'));
 };
 
 export const clean = () => {

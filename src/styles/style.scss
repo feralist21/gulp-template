@@ -3,6 +3,9 @@
 @import './config/normalize.scss';
 @import './config/fonts.scss';
 
+@import 'swiper/swiper-vars.scss';
+@import 'swiper/swiper.scss';
+
 @import '../components/page-body/page-body.scss';
 @import '../components/header/header.scss';
 @import '../components/footer/footer.scss';

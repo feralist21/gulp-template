@@ -34,5 +34,8 @@
     "last 4 versions",
     "> 2%",
     "IE 10"
-  ]
+  ],
+  "dependencies": {
+    "swiper": "^8.4.2"
+  }
 }
