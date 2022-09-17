@@ -1,4 +1,5 @@
 import gulp from 'gulp';
+import pug from 'gulp-pug';
 import plumber from 'gulp-plumber';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
@@ -59,13 +60,9 @@ export const js = () => {
     .pipe(sync.stream());
 };
 
-export const pages = () => {
-  return gulp.src('./src/pages/*.html')
-    .pipe(
-      includeFiles({
-        includePaths: './src/components/**/',
-      })
-    )
+export const pugPages = () => {
+  return gulp.src('./src/pages/*.pug')
+    .pipe(pug({ pretty: true }))
     .pipe(gulp.dest('./public/'))
     .pipe(sync.reload({ stream: true, }));
 };
@@ -112,7 +109,7 @@ export const watchDev = () => {
   gulp.watch('./src/images/**/*.{jpg,svg,png}', gulp.series(images));
   gulp.watch('./src/images/svg/*.svg', gulp.series(sprite));
   gulp.watch('./src/fonts/*.{woff,woff2}', gulp.series(fonts));
-  gulp.watch(['./src/pages/*.html', './src/components/**/*.html'], gulp.series(pages)).on(
+  gulp.watch(['./src/pages/*.pug', './src/components/**/*.pug'], gulp.series(pugPages)).on(
     'change',
     sync.reload
   );
@@ -121,7 +118,7 @@ export const watchDev = () => {
 gulp.task('build', gulp.series(
   clean,
   gulp.parallel(
-    pages,
+    pugPages,
     style,
     js,
     images,
@@ -133,7 +130,7 @@ gulp.task('build', gulp.series(
 export default gulp.series(
   clean,
   gulp.parallel(
-    pages,
+    pugPages,
     style,
     js,
     images,
