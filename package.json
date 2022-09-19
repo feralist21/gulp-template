@@ -30,12 +30,12 @@
     "postcss": "^8.4.5",
     "sass": "^1.49.0"
   },
+  "dependencies": {
+    "swiper": "^8.4.2"
+  },
   "browserslist": [
     "last 4 versions",
     "> 2%",
     "IE 10"
-  ],
-  "dependencies": {
-    "swiper": "^8.4.2"
-  }
+  ]
 }
