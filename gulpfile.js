@@ -101,7 +101,7 @@ export const clean = () => {
 };
 
 export const watchDev = () => {
-  gulp.watch(['./src/styles/style.scss', './src/components/**/*.scss'], gulp.series(style)).on(
+  gulp.watch(['./src/styles/style.scss', './src/styles/config/**/*.scss', './src/components/**/*.scss'], gulp.series(style)).on(
     'change',
     sync.reload
   );
@@ -125,7 +125,6 @@ gulp.task('build', gulp.series(
     sprite,
     fonts
   )));
-
 
 export default gulp.series(
   clean,
