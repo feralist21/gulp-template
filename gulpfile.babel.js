@@ -9,11 +9,10 @@ import autoprefixer from 'autoprefixer';
 import cssnano from 'gulp-cssnano';
 import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin';
 import svgSprite from 'gulp-svg-sprite';
-import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
 import { deleteAsync } from 'del';
 import sync from 'browser-sync';
-import includeFiles from 'gulp-include';
+import webpack from 'webpack-stream';
 const sass = gulpSass(dartSass);
 
 export const browsersync = () => {
@@ -48,14 +47,27 @@ export const style = () => {
 };
 
 export const js = () => {
-  return gulp.src('./src/js/script.js')
+  return gulp.src('./src/js/index.js')
     .pipe(plumber())
-    .pipe(
-      includeFiles({
-        includePaths: ['./node_modules/', './src/components/**/'],
-      })
-    )
-    .pipe(uglify())
+    .pipe(webpack({
+      mode: process.env.NODE_ENV || 'development',
+      entry: {
+        main: './src/js/index.js',
+      },
+      devtool: process.env.NODE_ENV ? false : 'source-map',
+      output: {
+        filename: 'bundle.js',
+      },
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+          },
+        ],
+      },
+    }))
     .pipe(gulp.dest('./public/js/'))
     .pipe(sync.stream());
 };
@@ -126,7 +138,7 @@ gulp.task('build', gulp.series(
     fonts
   )));
 
-export default gulp.series(
+gulp.task('start', gulp.series(
   clean,
   gulp.parallel(
     pugPages,
@@ -140,4 +152,4 @@ export default gulp.series(
     watchDev,
     browsersync
   )
-);
+));
